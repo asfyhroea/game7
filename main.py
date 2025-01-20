@@ -110,7 +110,7 @@ while running:
 
 # 終了メッセージ
 screen.fill(BLACK)
-end_text = font.render(f"Game Over! Final Score: {score}", True, WHITE)
+end_text = font.render(f"Time up! Score: {score}", True, WHITE)
 screen.blit(end_text, (WIDTH // 2 - end_text.get_width() // 2, HEIGHT // 2))
 pygame.display.flip()
 pygame.time.wait(3000)

@@ -1,12 +1,13 @@
 import pygame
+import random
 from config import WIDTH, HEIGHT, RED, WHITE, BLUE, GREEN
 
 # ロケットクラス
 class Rocket:
   def __init__(self, image_path):
     self.image = pygame.image.load(image_path)
-    self.image = pygame.transform.scale(self.image, (80, 120))  # ロケット画像を拡大
-    self.rect = self.image.get_rect(center=(WIDTH // 2, HEIGHT - 100))
+    self.image = pygame.transform.scale(self.image, (80, 100))  # ロケット画像を拡大
+    self.rect = self.image.get_rect(center=(WIDTH // 2, HEIGHT - 70))
     self.speed = 5
 
   def move(self, keys):
@@ -36,7 +37,8 @@ class FallingObject:
   def __init__(self, x, y, color, width=30, height=30):
     self.rect = pygame.Rect(x, y, width, height)
     self.speed = 3
-    self.color = color
+    self.color = (random.randint(0, 255), random.randint(
+        0, 255), random.randint(0, 255))
 
   def move(self):
     self.rect.y += self.speed
