@@ -1,7 +1,7 @@
 import pygame
 import random
 import sys
-from config import WIDTH, HEIGHT, FPS, BLACK, WHITE, BLUE, GREEN, font
+from config import WIDTH, HEIGHT, FPS, BLACK, WHITE, font
 from game_objects import Rocket, Bullet, FallingObject
 
 # Pygameの初期化
@@ -20,6 +20,10 @@ skills = []
 score = 0
 time_limit = 30  # ゲームの制限時間 (秒)
 game_start_ticks = pygame.time.get_ticks()
+
+# 降ってくる物体用の画像リスト
+falling_object_images = ["hanba-ga-.png", "itigopafe.png", "kakigoori.png",
+                         "ke-ki.png", "meron.png", "ra-men.png", "tomato.png", "warabimoti.png"]
 
 # メインゲームループ
 running = True
@@ -45,23 +49,13 @@ while running:
 
   # 降ってくる物体の生成
   if random.randint(1, 30) == 1:
-    falling_objects.append(FallingObject(
-        random.randint(0, WIDTH - 30), 0, BLUE))
+    falling_objects.append(FallingObject(random.randint(
+        0, WIDTH - 30), 0, image_paths=falling_object_images))
+
+  # スキルアイテムの生成
   if random.randint(1, 100) == 1:  # スキルアイテムは低確率で生成
-    skills.append(FallingObject(
-        random.randint(0, WIDTH - 40), 0, image_path="star.png", width=40, height=40))
-
-  # 降ってくる物体の更新
-  for obj in falling_objects[:]:
-    obj.move()
-    if obj.rect.y > HEIGHT:
-      falling_objects.remove(obj)
-
-  # スキルアイテムの更新
-  for skill in skills[:]:
-    skill.move()
-    if skill.rect.y > HEIGHT:
-      skills.remove(skill)
+    skills.append(FallingObject(random.randint(0, WIDTH - 40),
+                  0, image_path="star.png", width=50, height=50))
 
   # 弾と物体の衝突判定
   for bullet in bullets[:]:
@@ -80,6 +74,17 @@ while running:
         skills.remove(skill)
         score += 50
         break
+
+  # 物体の更新
+  for obj in falling_objects[:]:
+    obj.move()
+    if obj.rect.y > HEIGHT:
+      falling_objects.remove(obj)
+
+  for skill in skills[:]:
+    skill.move()
+    if skill.rect.y > HEIGHT:
+      skills.remove(skill)
 
   # 描画
   rocket.draw(screen)
