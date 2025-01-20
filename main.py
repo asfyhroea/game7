@@ -18,7 +18,7 @@ skills = []
 
 # スコアと時間
 score = 0
-time_limit = 60  # ゲームの制限時間 (秒)
+time_limit = 30  # ゲームの制限時間 (秒)
 game_start_ticks = pygame.time.get_ticks()
 
 # メインゲームループ
@@ -49,7 +49,7 @@ while running:
         random.randint(0, WIDTH - 30), 0, BLUE))
   if random.randint(1, 100) == 1:  # スキルアイテムは低確率で生成
     skills.append(FallingObject(
-        random.randint(0, WIDTH - 40), 0, GREEN, 40, 40))
+        random.randint(0, WIDTH - 40), 0, image_path="star.png", width=40, height=40))
 
   # 降ってくる物体の更新
   for obj in falling_objects[:]:

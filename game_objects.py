@@ -33,15 +33,38 @@ class Bullet:
     pygame.draw.rect(screen, WHITE, self.rect)
 
 # 降ってくる物体クラス
+# class FallingObject:
+#   def __init__(self, x, y, color, width=30, height=30):
+#     self.rect = pygame.Rect(x, y, width, height)
+#     self.speed = 3
+#     self.color = (random.randint(0, 255), random.randint(
+#         0, 255), random.randint(0, 255))
+
+#   def move(self):
+#     self.rect.y += self.speed
+
+#   def draw(self, screen):
+#     pygame.draw.rect(screen, self.color, self.rect)
+
 class FallingObject:
-  def __init__(self, x, y, color, width=30, height=30):
-    self.rect = pygame.Rect(x, y, width, height)
+  def __init__(self, x, y, color=None, width=30, height=30, image_path=None):
+    if image_path:
+      self.image = pygame.image.load(image_path)
+      self.image = pygame.transform.scale(self.image, (width, height))
+      self.rect = self.image.get_rect(topleft=(x, y))
+      self.has_image = True
+    else:
+      self.rect = pygame.Rect(x, y, width, height)
+      self.color = color if color else (random.randint(
+          0, 255), random.randint(0, 255), random.randint(0, 255))
+      self.has_image = False
     self.speed = 3
-    self.color = (random.randint(0, 255), random.randint(
-        0, 255), random.randint(0, 255))
 
   def move(self):
     self.rect.y += self.speed
 
   def draw(self, screen):
-    pygame.draw.rect(screen, self.color, self.rect)
+    if self.has_image:
+      screen.blit(self.image, self.rect.topleft)
+    else:
+      pygame.draw.rect(screen, self.color, self.rect)
